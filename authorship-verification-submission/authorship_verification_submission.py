@@ -20,7 +20,7 @@ if __name__ == "__main__":
         "nlpbuw-fsu-sose-24", "authorship-verification-train-20240408-training"
     )
     # loading validation data (automatically replaced by test data when run on tira)
-    text_train = tira.pd.inputs(
+    text_validation = tira.pd.inputs(
         "nlpbuw-fsu-sose-24", "authorship-verification-validation-20240408-training"
     )
     # targets_validation = tira.pd.truths(
@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     tfidf_vectorizer = TfidfVectorizer(max_features=100)
     x_train_tfidf = tfidf_vectorizer.fit_transform(merged_train['text']).toarray()
-    x_validation_tfidf = tfidf_vectorizer.fit_transform(text_train['text']).toarray()
+    x_validation_tfidf = tfidf_vectorizer.fit_transform(text_validation['text']).toarray()
 
     y_train = merged_train['generated']
 
