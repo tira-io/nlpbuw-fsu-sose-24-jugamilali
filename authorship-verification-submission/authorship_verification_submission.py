@@ -40,10 +40,6 @@ if __name__ == "__main__":
     model = RandomForestClassifier()
     model.fit(x_train_tfidf, y_train)
     prediction = model.predict(x_validation_tfidf)
-        
-    # converting the prediction to the required format
-    prediction.name = "generated"
-    prediction = prediction.reset_index()
 
     # saving the prediction
     output_directory = get_output_directory(str(Path(__file__).parent))

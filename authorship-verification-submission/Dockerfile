@@ -1,4 +1,4 @@
-# docker build -t fschlatt/authorship-verification-trivial:0.0.1 .
+# docker build -t fschlatt/authorship-verification-submission:0.0.1 .
 FROM fschlatt/natural-language-processing-exercises:0.0.1
 
 ADD authorship_verification_submission.py /code/authorship_verification_submission.py
