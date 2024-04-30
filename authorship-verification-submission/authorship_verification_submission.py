@@ -20,22 +20,21 @@ if __name__ == "__main__":
         "nlpbuw-fsu-sose-24", "authorship-verification-train-20240408-training"
     )
     # loading validation data (automatically replaced by test data when run on tira)
-    text_validation = tira.pd.inputs(
+    text_train = tira.pd.inputs(
         "nlpbuw-fsu-sose-24", "authorship-verification-validation-20240408-training"
     )
-    targets_validation = tira.pd.truths(
-        "nlpbuw-fsu-sose-24", "authorship-verification-validation-20240408-training"
-    )
+    # targets_validation = tira.pd.truths(
+    #     "nlpbuw-fsu-sose-24", "authorship-verification-validation-20240408-training"
+    # )
 
     merged_train = pd.merge(text_train, targets_train, on='id')
-    merged_validation = pd.merge(text_validation, targets_validation, on='id')
+    # merged_validation = pd.merge(text_validation, targets_validation, on='id')
 
     tfidf_vectorizer = TfidfVectorizer(max_features=100)
     x_train_tfidf = tfidf_vectorizer.fit_transform(merged_train['text']).toarray()
-    x_validation_tfidf = tfidf_vectorizer.fit_transform(merged_validation['text']).toarray()
+    x_validation_tfidf = tfidf_vectorizer.fit_transform(text_train['text']).toarray()
 
     y_train = merged_train['generated']
-    y_validation = merged_validation['generated']
 
     model = RandomForestClassifier()
     model.fit(x_train_tfidf, y_train)
