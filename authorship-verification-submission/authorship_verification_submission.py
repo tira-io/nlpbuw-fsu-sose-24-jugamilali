@@ -41,8 +41,10 @@ if __name__ == "__main__":
     model.fit(x_train_tfidf, y_train)
     prediction = model.predict(x_validation_tfidf)
 
+    prediction_df = pd.DataFrame(prediction, columns=['generated'])
+
     # saving the prediction
     output_directory = get_output_directory(str(Path(__file__).parent))
-    prediction.to_json(
+    prediction_df.to_json(
         Path(output_directory) / "predictions.jsonl", orient="records", lines=True
     )
