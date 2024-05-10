@@ -2,6 +2,6 @@
 FROM fschlatt/natural-language-processing-exercises:0.0.1
 
 ADD run.py /code/run.py
-ADD model.joblib /code/model.joblib
+RUN curl -o /code/model.joblib https://cloud.uni-jena.de/s/wEE39bZoJKAJS2p/download/fasttext_model.bin
 
 ENTRYPOINT [ "python3", "/code/run.py" ]
