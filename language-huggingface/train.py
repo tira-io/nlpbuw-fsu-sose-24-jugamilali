@@ -7,19 +7,12 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from tira.rest_api_client import Client
 
 class FastTextTransformer(TransformerMixin, BaseEstimator):
-    def __init__(self, model_path, label_mapping):
+    def __init__(self, model_path):
         self.model_path = model_path
-        self.label_mapping = label_mapping
 
     def fit(self, X, y=None):
         return self
-
-    def transform(self, X):
-        model = fasttext.load_model(self.model_path)
-        predictions = [model.predict(text)[0][0] for text in X]
-        mapped_predictions = [self.label_mapping[label] for label in predictions]
-        return mapped_predictions
-
+    
 if __name__ == "__main__":
     # Load the data
     tira = Client()
@@ -32,17 +25,6 @@ if __name__ == "__main__":
     )
     df = text.join(labels.set_index("id"))
 
-    # Define language IDs and labels mapping
-    lang_ids = [
-        "af", "az", "bg", "cs", "da", "de", "el", "en", "es", "fi", "fr", "hr", "it", "ko", "nl", "no", "pl", "ru", "ur", "zh"
-    ]
-    lang_labels = [
-        "__label__af", "__label__az", "__label__bg", "__label__cs", "__label__da", "__label__de", "__label__el",
-        "__label__en", "__label__es", "__label__fi", "__label__fr", "__label__hr", "__label__it", "__label__ko",
-        "__label__nl", "__label__no", "__label__pl", "__label__ru", "__label__ur", "__label__zh"
-    ]
-    label_mapping = dict(zip(lang_labels, lang_ids))
-
     # Download and save FastText model
     model_path = hf_hub_download(repo_id="facebook/fasttext-language-identification", filename="model.bin")
     model_save_path = "fasttext_model.bin"
@@ -51,7 +33,7 @@ if __name__ == "__main__":
 
     # Define the pipeline
     model_pipeline = Pipeline([
-        ("fasttext", FastTextTransformer(model_save_path, label_mapping))
+        ("fasttext", FastTextTransformer(model_save_path))
     ])
 
     # Train the model
