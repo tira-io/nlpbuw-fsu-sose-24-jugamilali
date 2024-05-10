@@ -11,6 +11,6 @@ RUN apt-get update && \
 RUN pip install fasttext
 
 ADD run.py /code/run.py
-RUN curl -o /code/model.joblib https://cloud.uni-jena.de/s/wEE39bZoJKAJS2p/download/fasttext_model.bin
+RUN curl -o /code/model.bin https://cloud.uni-jena.de/s/wEE39bZoJKAJS2p/download/fasttext_model.bin
 
 ENTRYPOINT [ "python3", "/code/run.py" ]

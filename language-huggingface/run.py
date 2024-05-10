@@ -13,7 +13,7 @@ if __name__ == "__main__":
     )
 
     # Load the model
-    model_path = Path(__file__).parent / "fasttext_model.bin"
+    model_path = Path(__file__).parent / "model.bin"
     model = fasttext.load_model(str(model_path))
     
     predictions = [model.predict(text)[0][0] for text in df["text"]]
