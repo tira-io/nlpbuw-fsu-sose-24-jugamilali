@@ -1,2 +1,4 @@
 predictions.jsonl
 fasttext_model.bin
+model.bin
+train_data.txt
