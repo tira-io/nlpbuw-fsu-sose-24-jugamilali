@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from joblib import load
+import fasttext
 from tira.rest_api_client import Client
 from tira.third_party_integrations import get_output_directory
 
@@ -13,11 +13,13 @@ if __name__ == "__main__":
     )
 
     # Load the model
-    model = load(Path(__file__).parent / "model.joblib")
-
-    predictions = model.predict(df["text"])
+    model_path = Path(__file__).parent / "fasttext_model.bin"
+    model = fasttext.load_model(str(model_path))
+    
+    predictions = [model.predict(text)[0][0] for text in df["text"]]
     df["lang"] = predictions
     df = df[["id", "lang"]]
+
 
     # Save the predictions
     output_directory = get_output_directory(str(Path(__file__).parent))
