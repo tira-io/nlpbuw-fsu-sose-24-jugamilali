@@ -7,11 +7,10 @@ RUN apt-get update && \
     apt-get install -y gcc g++ && \
     apt-get clean
 
-# Install fasttext
 RUN pip install tira \
-    pip install transformers && \
-    pip install datasets && \
-    pip install accelerate -U && \
+    pip install transformers \
+    pip install datasets \
+    pip install accelerate -U
 
 ADD run.py /code/run.py
 
