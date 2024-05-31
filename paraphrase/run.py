@@ -38,12 +38,12 @@ if __name__ == "__main__":
 
     # Load the data
     tira = Client()
-    text = tira.pd.inputs(
+    df = tira.pd.inputs(
         "nlpbuw-fsu-sose-24", "paraphrase-identification-train-20240515-training"
     ).set_index("id")
 
     # Convert text DataFrame to list of tuples
-    texts = text[['sentence1', 'sentence2']].values.tolist()
+    texts = df[['sentence1', 'sentence2']].values.tolist()
 
     # Set model path
     model_path = Path(__file__).parent
@@ -74,9 +74,10 @@ if __name__ == "__main__":
             predictions.extend(torch.argmax(logits, axis=1).cpu().numpy())
 
     # Save the predictions
+    df['label'] = predictions
+    df = df.drop(columns=["sentence1", "sentence2"]).reset_index()
+    
     output_directory = get_output_directory(str(Path(__file__).parent))
-    prediction_df = text.copy()
-    prediction_df['label'] = predictions
-    prediction_df.to_json(
+    df.to_json(
         Path(output_directory) / "predictions.jsonl", orient="records", lines=True
     )
