@@ -47,13 +47,13 @@ if __name__ == "__main__":
     texts, labels= df[['sentence1', 'sentence2']].values.tolist(), df['label'].values
 
     # Lade den Tokenizer
-    tokenizer = AutoTokenizer.from_pretrained("./bert")
+    tokenizer = AutoTokenizer.from_pretrained(".")
 
     dataset = ParaphraseDataset(texts, labels, tokenizer, max_len=128)
     dataloader = DataLoader(dataset, batch_size=8, shuffle=True)
 
     # Lade das Modell
-    model = AutoModel.from_pretrained("./bert")
+    model = AutoModel.from_pretrained(".")
     model = model.to('cuda')
 
     model.eval()

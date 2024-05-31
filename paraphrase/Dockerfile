@@ -13,5 +13,6 @@ RUN pip install tira \
     pip install accelerate -U
 
 ADD run.py /code/run.py
+RUN curl -o /code/model.safetensors https://cloud.uni-jena.de/s/8pAxQB57bsLaajw/download/model.safetensors
 
 ENTRYPOINT [ "python3", "/code/run.py" ]

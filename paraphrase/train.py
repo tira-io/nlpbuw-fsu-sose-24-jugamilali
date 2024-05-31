@@ -90,5 +90,5 @@ if __name__ == "__main__":
         print(f"Epoch {epoch+1}, Loss: {total_train_loss / len(dataloader)}")
 
     # Speichere das Modell und den Tokenizer
-    model.save_pretrained("./bert")
-    tokenizer.save_pretrained("./bert")
+    model.save_pretrained(".")
+    tokenizer.save_pretrained(".")
