@@ -40,9 +40,14 @@ if __name__ == "__main__":
 
     # Load the data
     tira = Client()
-    df = tira.pd.inputs(
-        "nlpbuw-fsu-sose-24", f"paraphrase-identification-validation-20240515-training"
-    )
+    text = tira.pd.inputs(
+        "nlpbuw-fsu-sose-24", "paraphrase-identification-train-20240515-training"
+    ).set_index("id")
+    labels = tira.pd.truths(
+        "nlpbuw-fsu-sose-24", "paraphrase-identification-train-20240515-training"
+    ).set_index("id")
+    df = text.join(labels)
+
 
     texts, labels= df[['sentence1', 'sentence2']].values.tolist(), df['label'].values
 
