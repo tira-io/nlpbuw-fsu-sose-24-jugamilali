@@ -7,9 +7,8 @@ import torch
 from torch.utils.data import DataLoader, Dataset
 
 class ParaphraseDataset(Dataset):
-    def __init__(self, texts, labels, tokenizer, max_len):
+    def __init__(self, texts, tokenizer, max_len):
         self.texts = texts
-        self.labels = labels
         self.tokenizer = tokenizer
         self.max_len = max_len
     
@@ -33,7 +32,6 @@ class ParaphraseDataset(Dataset):
             'input_ids': inputs['input_ids'].flatten(),
             'attention_mask': inputs['attention_mask'].flatten(),
             'token_type_ids': inputs['token_type_ids'].flatten(),
-            'label': torch.tensor(self.labels[item], dtype=torch.long)
         }
 
 if __name__ == "__main__":
@@ -43,21 +41,17 @@ if __name__ == "__main__":
     text = tira.pd.inputs(
         "nlpbuw-fsu-sose-24", "paraphrase-identification-train-20240515-training"
     ).set_index("id")
-    labels = tira.pd.truths(
-        "nlpbuw-fsu-sose-24", "paraphrase-identification-train-20240515-training"
-    ).set_index("id")
-    df = text.join(labels)
 
+    # Convert text DataFrame to list of tuples
+    texts = text[['sentence1', 'sentence2']].values.tolist()
 
-    texts, labels= df[['sentence1', 'sentence2']].values.tolist(), df['label'].values
-
-    # Lade den Tokenizer
+    # Load the tokenizer
     tokenizer = AutoTokenizer.from_pretrained(".")
 
-    dataset = ParaphraseDataset(texts, labels, tokenizer, max_len=128)
-    dataloader = DataLoader(dataset, batch_size=8, shuffle=True)
+    dataset = ParaphraseDataset(texts, tokenizer, max_len=128)
+    dataloader = DataLoader(dataset, batch_size=8, shuffle=False)
 
-    # Lade das Modell
+    # Load the model
     model = AutoModel.from_pretrained(".")
     model = model.to('cuda')
 
@@ -79,6 +73,8 @@ if __name__ == "__main__":
 
     # Save the predictions
     output_directory = get_output_directory(str(Path(__file__).parent))
-    df.to_json(
+    prediction_df = text.copy()
+    prediction_df['label'] = predictions
+    prediction_df.to_json(
         Path(output_directory) / "predictions.jsonl", orient="records", lines=True
     )
