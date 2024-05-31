@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from transformers import AutoModel, AutoTokenizer
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
 from tira.rest_api_client import Client
 from tira.third_party_integrations import get_output_directory
 import torch
@@ -55,8 +55,7 @@ if __name__ == "__main__":
     dataloader = DataLoader(dataset, batch_size=8, shuffle=False)
 
     # Load the model
-    model = AutoModel.from_pretrained(str(model_path))
-    model = model
+    model = AutoModelForSequenceClassification.from_pretrained(str(model_path))
 
     model.eval()
     predictions = []
