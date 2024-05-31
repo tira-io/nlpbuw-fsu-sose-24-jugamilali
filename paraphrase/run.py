@@ -45,14 +45,17 @@ if __name__ == "__main__":
     # Convert text DataFrame to list of tuples
     texts = text[['sentence1', 'sentence2']].values.tolist()
 
+    # Set model path
+    model_path = Path(__file__).parent
+
     # Load the tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(".")
+    tokenizer = AutoTokenizer.from_pretrained(str(model_path))
 
     dataset = ParaphraseDataset(texts, tokenizer, max_len=128)
     dataloader = DataLoader(dataset, batch_size=8, shuffle=False)
 
     # Load the model
-    model = AutoModel.from_pretrained(".")
+    model = AutoModel.from_pretrained(str(model_path))
     model = model.to('cuda')
 
     model.eval()
