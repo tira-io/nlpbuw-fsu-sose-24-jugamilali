@@ -56,15 +56,15 @@ if __name__ == "__main__":
 
     # Load the model
     model = AutoModel.from_pretrained(str(model_path))
-    model = model.to('cuda')
+    model = model
 
     model.eval()
     predictions = []
     with torch.no_grad():
         for batch in dataloader:
-            b_input_ids = batch['input_ids'].to('cuda')
-            b_attention_mask = batch['attention_mask'].to('cuda')
-            b_token_type_ids = batch['token_type_ids'].to('cuda')
+            b_input_ids = batch['input_ids']
+            b_attention_mask = batch['attention_mask']
+            b_token_type_ids = batch['token_type_ids']
             
             outputs = model(
                 b_input_ids,
