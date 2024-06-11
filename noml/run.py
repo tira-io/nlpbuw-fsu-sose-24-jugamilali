@@ -15,7 +15,7 @@ if __name__ == "__main__":
         "nlpbuw-fsu-sose-24", "paraphrase-identification-validation-20240515-training"
     ).set_index("id")
 
-    model = SentenceTransformer(Path(__file__).parent)
+    model = SentenceTransformer(str(Path(__file__).parent / "bert_model"))
     
     threshold = 0.9287000000000001
 
