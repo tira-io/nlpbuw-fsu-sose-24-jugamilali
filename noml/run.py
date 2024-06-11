@@ -15,14 +15,9 @@ if __name__ == "__main__":
         "nlpbuw-fsu-sose-24", "paraphrase-identification-validation-20240515-training"
     ).set_index("id")
 
-
-    output_dir = get_output_directory(str(Path(__file__).parent))
-
-    model_path = os.path.join(output_dir, "bert_model")
-    model = SentenceTransformer(model_path)
-
-    threshold_path = os.path.join(output_dir, "threshold.txt")
-    with open(threshold_path, 'r') as f:
+    model = SentenceTransformer(Path(__file__).parent / "bert_model")
+    
+    with open(Path(__file__).parent / "threshold.txt", 'r') as f:
         threshold = float(f.read())
 
     # Compute embeddings for each sentence
