@@ -10,6 +10,5 @@ RUN pip install tira sentence-transformers
 
 ADD run.py /code/run.py
 ADD bert_model /code/bert_model
-ADD threshold.txt /code/threshold.txt
 
 ENTRYPOINT [ "python3", "/code/run.py" ]

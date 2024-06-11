@@ -15,10 +15,9 @@ if __name__ == "__main__":
         "nlpbuw-fsu-sose-24", "paraphrase-identification-validation-20240515-training"
     ).set_index("id")
 
-    model = SentenceTransformer(Path(__file__).parent / "bert_model")
+    model = SentenceTransformer(Path(__file__).parent)
     
-    with open(Path(__file__).parent / "threshold.txt", 'r') as f:
-        threshold = float(f.read())
+    threshold = 0.9287000000000001
 
     # Compute embeddings for each sentence
     embeddings1 = model.encode(df['sentence1'].tolist())
