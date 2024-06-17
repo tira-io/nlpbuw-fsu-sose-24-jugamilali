@@ -2,7 +2,7 @@ from pathlib import Path
 from tira.rest_api_client import Client
 from tira.third_party_integrations import get_output_directory
 
-from transformers import pipeline, BartForConditionalGeneration
+from transformers import pipeline, BartForConditionalGeneration, BartTokenizer
 import torch
 
 def summarize_texts(texts, summarizer, max_length=150):
@@ -19,10 +19,14 @@ if __name__ == "__main__":
     # Determine device
     device = 0 if torch.cuda.is_available() else -1
 
-    model = BartForConditionalGeneration.from_pretrained(str(Path(__file__).parent / "summarizer_model"))
+    model_path = str(Path(__file__).parent / "summarizer_model")
+    tokenizer_path = str(Path(__file__).parent / "summarizer_tokenizer")
+
+    model = BartForConditionalGeneration.from_pretrained(model_path)
+    tokenizer = BartTokenizer.from_pretrained(tokenizer_path)
 
     # Load the summarization pipeline
-    summarizer = pipeline("summarization", model=model, device=device)
+    summarizer = pipeline("summarization", model=model, tokenizer=tokenizer, device=device)
 
     # Summarize texts
     df['summary'] = summarize_texts(df['story'].tolist(), summarizer)
