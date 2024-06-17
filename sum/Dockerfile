@@ -16,5 +16,8 @@ ADD run.py /code/run.py
 RUN curl -o /code/summarizer_model.zip https://cloud.uni-jena.de/s/rRZjmJHjJjYACFB/download && \
     unzip /code/summarizer_model.zip -d /code/
 
+RUN curl -o /code/summarizer_tokenizer.zip https://cloud.uni-jena.de/s/WSDsickiEcSzTNo/download && \
+    unzip /code/summarizer_tokenizer.zip -d /code/
+
 # Set the entrypoint
 ENTRYPOINT [ "python3", "/code/run.py" ]
