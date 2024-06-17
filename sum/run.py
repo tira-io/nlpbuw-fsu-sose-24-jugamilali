@@ -29,12 +29,13 @@ if __name__ == "__main__":
     summarizer = pipeline("summarization", model=model, tokenizer=tokenizer, device=device)
 
     # Summarize texts
-    df['summary'] = summarize_texts(df['story'].tolist(), summarizer)
+    df['summary'] = summarize_texts(df['story'], summarizer)
 
     # Prepare the DataFrame for output
-    summaries = df[["id", "summary"]].reset_index()
+    df = df.drop(columns=["story"]).reset_index()
 
-    # Save the summaries
+    # Save the predictions
     output_directory = get_output_directory(str(Path(__file__).parent))
-    output_path = Path(output_directory) / "df.jsonl"
-    summaries.to_json(output_path, orient="records", lines=True)
+    df.to_json(
+        Path(output_directory) / "predictions.jsonl", orient="records", lines=True
+    )
