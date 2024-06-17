@@ -19,7 +19,7 @@ if __name__ == "__main__":
     # Determine device
     device = 0 if torch.cuda.is_available() else -1
 
-    model = BartForConditionalGeneration.from_pretrained(str(Path(__file__).parent))
+    model = BartForConditionalGeneration.from_pretrained(str(Path(__file__).parent / "summarizer_model"))
 
     # Load the summarization pipeline
     summarizer = pipeline("summarization", model=model, device=device)
