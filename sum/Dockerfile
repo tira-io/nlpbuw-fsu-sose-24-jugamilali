@@ -1,17 +1,20 @@
-# docker build -t fschlatt/authorship-verification-naive-bayes:0.0.1 .
+# Base image
 FROM fschlatt/natural-language-processing-exercises:0.0.1
 
-# Install necessary packages for compilation
+# Install necessary packages for compilation and unzip
 RUN apt-get update && \
-    apt-get install -y build-essential cmake gcc g++ && \
+    apt-get install -y build-essential cmake gcc g++ unzip && \
     apt-get clean
 
 # Install necessary Python packages
 RUN pip install tira transformers torch accelerate -U
 
+# Add the script to the container
 ADD run.py /code/run.py
-RUN curl -o /code/summarizer_model/generation_config.json https://cloud.uni-jena.de/s/jncgNY3GNnppMfM/download/generation_config.json
-RUN curl -o /code/summarizer_model/model.safetensors https://cloud.uni-jena.de/s/WNmXbq5HgfoM7dg/download/model.safetensors
-RUN curl -o /code/summarizer_model/config.json https://cloud.uni-jena.de/s/AwwR22e6dWSXgtTdownload/config.json
 
+# Download and unzip the summarizer model
+RUN curl -o /code/summarizer_model.zip https://cloud.uni-jena.de/s/rRZjmJHjJjYACFB/download && \
+    unzip /code/summarizer_model.zip -d /code/
+
+# Set the entrypoint
 ENTRYPOINT [ "python3", "/code/run.py" ]
