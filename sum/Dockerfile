@@ -10,6 +10,8 @@ RUN apt-get update && \
 RUN pip install tira transformers torch accelerate -U
 
 ADD run.py /code/run.py
-RUN curl -o /code/summarizer_model https://cloud.uni-jena.de/s/rRZjmJHjJjYACFB/download/summarizer_model
+RUN curl -o /code/summarizer_model/generation_config.json https://cloud.uni-jena.de/s/WNmXbq5HgfoM7dg/download/generation_config.json
+RUN curl -o /code/summarizer_model/model.safetensors https://cloud.uni-jena.de/s/jncgNY3GNnppMfM/download/model.safetensors
+RUN curl -o /code/summarizer_model/config.json https://cloud.uni-jena.de/s/WNmXbq5HgfoM7dg/download/config.json
 
 ENTRYPOINT [ "python3", "/code/run.py" ]
