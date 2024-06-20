@@ -13,11 +13,8 @@ RUN pip install tira transformers torch accelerate -U
 ADD run.py /code/run.py
 
 # Download and unzip the summarizer model
-RUN curl -o /code/summarizer_model.zip https://cloud.uni-jena.de/s/rRZjmJHjJjYACFB/download && \
-    unzip /code/summarizer_model.zip -d /code/
-
-RUN curl -o /code/summarizer_tokenizer.zip https://cloud.uni-jena.de/s/WSDsickiEcSzTNo/download && \
-    unzip /code/summarizer_tokenizer.zip -d /code/
+RUN curl -o /code/sumbart.zip https://cloud.uni-jena.de/s/R3qFYxJ9Ln2GjKM/download && \
+    unzip /code/sumbart.zip -d /code/
 
 # Set the entrypoint
 ENTRYPOINT [ "python3", "/code/run.py" ]
