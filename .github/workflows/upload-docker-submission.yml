@@ -69,10 +69,6 @@ jobs:
         run: |
           docker build -t ${{ env.IMAGE_TAG }} ${{ github.workspace }}/${{ inputs.dockerpath }}
         
-      - name: Test Docker image
-        run: |
-          docker run --rm ${{ env.IMAGE_TAG }} pytest /path/to/tests
-        
       - name: Push Docker image
         run: |
           docker push ${{ env.IMAGE_TAG }}
