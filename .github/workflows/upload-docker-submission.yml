@@ -18,7 +18,7 @@ on:
 jobs:
   docker-build:
     runs-on: ubuntu-latest
-    timeout-minutes: 240
+    timeout-minutes: 360
     steps:
       -
         name: Checkout
