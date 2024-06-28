@@ -10,7 +10,7 @@ def generate_summary(batch):
     inputs = tokenizer(batch['story'], max_length=1024, return_tensors='pt', truncation=True, padding='max_length')
     inputs = {k: v.to(device) for k, v in inputs.items()}
     summaries = model.generate(inputs['input_ids'], max_length=150, min_length=40, length_penalty=2.0, num_beams=4, early_stopping=True)
-    batch['summary'] = tokenizer.batch_decode(summaries, skip_special_tokens=True)
+    batch['summary'] = tokenizer.batch_decode(summaries, skip_special_tokens=True)[0]
     return batch
 
 if __name__ == "__main__":
